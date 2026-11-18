@@ -1,0 +1,4 @@
+// Examples are applied only on an explicit click; existing work can be restored.
+const baseRender=render;
+render=function(){baseRender();if(state.mode!=='learn')return;document.querySelectorAll('#fields label').forEach((label,i)=>{const b=document.createElement('button');b.type='button';b.className='field-example';b.textContent='예시 넣기';b.setAttribute('aria-label',task().fields[i]+' 예시 넣기');b.onclick=()=>{if(state.mode!=='learn')return;backup=JSON.parse(JSON.stringify({company:state.company,service:state.service,customer:state.customer,purpose:state.purpose,record:record()}));record().values[i]=samples(task(),COMPANIES[state.company])[i];record().confirmed=false;delete record().custom;render();toast('이 항목에 계열사 맞춤 예시를 넣었습니다.')};label.insertBefore(b,label.firstChild)});};
+if(!$('stagePage').hidden)render();
